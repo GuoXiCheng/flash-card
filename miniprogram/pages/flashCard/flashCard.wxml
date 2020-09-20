@@ -1,0 +1,11 @@
+<!--pages/flashCard/flashCard.wxml-->
+
+<view style="width:90%;height:700rpx;background:#eeeeee;margin-left:5%;margin-top:5%;text-align:center;line-height:700rpx">
+  <text>{{cardFace}}</text>
+</view>
+
+<view style="display:flex;flex-direction:row;margin-top:200rpx">
+  <button size="mini" style="background:lightblue" bindtap="previousCard">上一张</button>
+  <button size="mini" style="background:lightblue" bindtap="flipCard">翻转</button>
+  <button size="mini" style="background:lightblue" bindtap="nextCard">下一张</button>
+</view>
