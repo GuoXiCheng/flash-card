@@ -5,27 +5,64 @@ Page({
    * 页面的初始数据
    */
   data: {
-    cardFace: "什么是行内元素？"
+    cardFace: '',
+    cardBack: [],
+    animationMain: null, //正面
+    animationBack: [], //背面
+    dataList: [],
+    id: 0
+  },
+
+  rotateFn(e) {
+    var id = e.currentTarget.dataset.id
+    this.animation_main = wx.createAnimation({
+      duration: 400,
+      timingFunction: 'linear'
+    })
+    this.animation_back = wx.createAnimation({
+      duration: 400,
+      timingFunction: 'linear'
+    })
+    // 点击正面
+
+    if (id == 1) {
+      this.animation_main.rotateY(180).step()
+      this.animation_back.rotateY(0).step()
+      this.setData({
+        animationMain: this.animation_main.export(),
+        animationBack: this.animation_back.export(),
+      })
+    }
+    // 点击背面
+    else {
+      this.animation_main.rotateY(0).step()
+      this.animation_back.rotateY(-180).step()
+      this.setData({
+        animationMain: this.animation_main.export(),
+        animationBack: this.animation_back.export(),
+      })
+    }
   },
 
   /**点击‘上一张’按钮 */
-  previousCard: function(){
+  previousCard: function () {
+    var me = this;
+    var index = me.data.id - 1;
     this.setData({
-      cardFace: "什么是块级元素？"
-    });
-  },
-
-  /**点击‘翻转’按钮触发翻转卡片事件 */
-  flipCard: function(){
-    this.setData({
-      cardFace: "不知道"
+      cardFace: me.data.dataList[index].question,
+      cardBack: me.data.dataList[index].answer.split('$'),
+      id: index
     });
   },
 
   /**点击‘下一张’按钮 */
-  nextCard: function(){
+  nextCard: function () {
+    var me = this;
+    var index = me.data.id + 1;
     this.setData({
-      cardFace: "什么是设计模式？"
+      cardFace: me.data.dataList[index].question,
+      cardBack: me.data.dataList[index].answer.split('$'),
+      id: index
     });
   },
 
@@ -33,7 +70,17 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    var that = this;
+    wx.cloud.callFunction({
+      name: 'getTestCard'
+    }).then(res=>{
+      const dataList = res.result.data;
+      that.setData({
+        cardFace: dataList[0].question,
+        cardBack: dataList[0].answer.split('$'),
+        dataList: dataList,
+      });
+    })
   },
 
   /**

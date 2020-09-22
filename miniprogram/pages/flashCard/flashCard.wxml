@@ -1,11 +1,18 @@
 <!--pages/flashCard/flashCard.wxml-->
 
-<view style="width:90%;height:700rpx;background:#eeeeee;margin-left:5%;margin-top:5%;text-align:center;line-height:700rpx">
-  <text>{{cardFace}}</text>
+<view class='main'>
+  <!--正面的框  -->
+  <view class="box b1" animation="{{animationMain}}" bindtap='rotateFn' data-id="1" style="display:flex;align-items:center;justify-content:center">
+    <text style="font-weight:bold">{{cardFace}}</text>
+  </view>
+  <!--背面的框  -->
+  <view class="box b2" animation="{{animationBack}}" bindtap='rotateFn' data-id="2" style="display:flex;flex-direction:column;align-items:center;justify-content:center">
+    <text wx:for="{{cardBack}}">{{item}}</text>
+  </view>
 </view>
 
-<view style="display:flex;flex-direction:row;margin-top:200rpx">
+<view style="position:absolute;top:75%;width:100%;display:flex;flex-direction:row;justify-content:space-around">
   <button size="mini" style="background:lightblue" bindtap="previousCard">上一张</button>
-  <button size="mini" style="background:lightblue" bindtap="flipCard">翻转</button>
   <button size="mini" style="background:lightblue" bindtap="nextCard">下一张</button>
 </view>
+
