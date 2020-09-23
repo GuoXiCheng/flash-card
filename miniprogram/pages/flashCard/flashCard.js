@@ -6,7 +6,7 @@ Page({
    */
   data: {
     cardFace: '',
-    cardBack: [],
+    cardBack: '',
     animationMain: null, //正面
     animationBack: [], //背面
     dataList: [],
@@ -46,24 +46,40 @@ Page({
 
   /**点击‘上一张’按钮 */
   previousCard: function () {
+    if(this.data.id == 0){
+      wx.showToast({
+        title: '已经是第一张了~',
+        icon: 'none'
+      });
+      return
+    }
     var me = this;
     var index = me.data.id - 1;
     this.setData({
       cardFace: me.data.dataList[index].question,
-      cardBack: me.data.dataList[index].answer.split('$'),
+      cardBack: me.data.dataList[index].answer.replace(/\$/g, '\n'),
       id: index
     });
+
   },
 
   /**点击‘下一张’按钮 */
   nextCard: function () {
+    if(this.data.id == this.data.dataList.length-1){
+      wx.showToast({
+        title: '已经是最后一张了~',
+        icon: 'none'
+      });
+      return
+    }
     var me = this;
     var index = me.data.id + 1;
     this.setData({
       cardFace: me.data.dataList[index].question,
-      cardBack: me.data.dataList[index].answer.split('$'),
+      cardBack: me.data.dataList[index].answer.replace(/\$/g, '\n'),
       id: index
     });
+
   },
 
   /**
@@ -77,7 +93,7 @@ Page({
       const dataList = res.result.data;
       that.setData({
         cardFace: dataList[0].question,
-        cardBack: dataList[0].answer.split('$'),
+        cardBack: dataList[0].answer.replace(/\$/g, '\n'),
         dataList: dataList,
       });
     })

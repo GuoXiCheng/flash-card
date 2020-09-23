@@ -7,7 +7,8 @@
   </view>
   <!--背面的框  -->
   <view class="box b2" animation="{{animationBack}}" bindtap='rotateFn' data-id="2" style="display:flex;flex-direction:column;align-items:center;justify-content:center">
-    <text wx:for="{{cardBack}}">{{item}}</text>
+    <!-- <text wx:for="{{cardBack}}">{{item}}</text> -->
+    <text style="margin: 0 10px;">{{cardBack}}</text>
   </view>
 </view>
 
